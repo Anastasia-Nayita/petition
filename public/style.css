@@ -1,0 +1,10 @@
+#inputs {
+    display: inline-flex;
+}
+#canvas {
+    border: dotted black;
+}
+footer {
+    position: fixed;
+    bottom: 10px;
+}
