@@ -1,16 +1,16 @@
 const spicedPg = require("spiced-pg");
-const db = spicedPg("postgres:postgres:postgres@localhost:5432/geography");
-module.exports.getCities = () => {
-    return db.query(`SELECT * FROM cities`);
+const db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
+module.exports.getSigner = () => {
+    return db.query(`SELECT * FROM petitionList`);
 };
-module.exports.addCity = (city, pop, country) => {
+module.exports.addSigner = (first, last, signature) => {
     return db.query(
         `
-    INSERT INTO cities (city, population, country)
+    INSERT INTO petitionList (first, last, signature)
     VALUES($1, $2, $3)  
     `,
         ///// add RETURNING in the `` to return values
         ///$-interpolation... prevents attacks!  $ for each argument
-        [city, pop, country]
+        [first, last, signature]
     );
 };

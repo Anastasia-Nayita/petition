@@ -1,6 +1,13 @@
+//import { text } from "express";
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+console.log("context of canvas:", ctx);
 
+const signature = document.getElementById("signature");
+//SHOULD IT ⬆︎ BE CONST OR LET???
+
+console.log("signature: ", signature);
 let isDrawing = false;
 let x = 0;
 let y = 0;
@@ -26,6 +33,7 @@ canvas.addEventListener("mouseup", (e) => {
         x = 0;
         y = 0;
         isDrawing = false;
+        signature.value = canvas.toDataURL();
     }
 });
 
@@ -37,7 +45,3 @@ function drawLine(ctx, x1, y1, x2, y2) {
     ctx.stroke();
     ctx.closePath();
 }
-
-//const signature = document.getElementsByName("signature");
-////SHOULD IT ⬆︎ BE CONST OR LET???
-//signature = canvas.toDataURL();

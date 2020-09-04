@@ -4,10 +4,15 @@
     <h3>and for sure not from my misspelling👯‍♀️</h3>
 <form method="POST">
 <div id="inputs">
-    <input type="text" name="firstName" minlength="4" maxlength="10">
-    <input type="text" name="lastName" minlength="4" maxlength="10">
-    <input type="hidden" name="signature">
-    <canvas id="canvas" width="300" height="100"></canvas>
+    <input type="text" placeholder="First name"name="firstName" minlength="4" maxlength="10" required="required">
+    <label for="firstName">First name</label>
+    <input type="text" placeholder="Last name" name="lastName" minlength="4" required="required"> 
+    <label for="lastName">Last name</label>
+    {{!-- needs to use {{}} 2 curlies to make handlebars work as sanitizer CHECK --}}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="signature" id="signature">
+    <canvas id="canvas"  width="300" height="100" required="required"></canvas>
+ <label for="canvas">Signature</label>
 </div>
     <button>SUBMIT</button>
 </div>
