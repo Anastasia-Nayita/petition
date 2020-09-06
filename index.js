@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
 const db = require("./db");
+//const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 
@@ -12,7 +13,7 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
-
+//app.use(cookieParser());
 app.use(
     express.urlencoded({
         extended: false,
@@ -53,29 +54,53 @@ app.post("/welcome", (req, res) => {
     const { firstName, lastName, signature } = req.body;
     if (firstName != "" && lastName != "" && signature != "") {
         // res.cookie("");
+
+        // console.log("req.cookies : ", req.cookies);
+        // console.log("res.cookies : ", res.cookies);
         db.addSigner(firstName, lastName, signature)
-            .then(() => {
+            .then((id) => {
+                //  console.log("id.rows[0].id", id.rows[0].id);
+                // res.cookie("authenticated", true);
+                req.session.signed = true;
+                res.redirect("/thanks");
                 console.log("WORKED");
             })
             .catch((err) => {
                 console.log("err:", err);
             });
     }
-    //     console.log("all data is here");
-    // } else {
-    //     res.send(`<h1>there is some data missing</h1>`);
-    //     setTimeout(() => res.redirect("/welcome"), 2000);
-    // }
 });
 
+app.get("/thanks", (req, res) => {
+    if (req.session.signed) {
+        res.render("thanks", {
+            layout: "main",
+        });
+    } else {
+        res.redirect("/welcome");
+    }
+});
+
+app.get("/signers", (req, res) => {
+    if (req.session.signed) {
+        db.getSigner()
+            .then((results) => {
+                let allSigners = results.rows;
+
+                console.log("results.rowCount", results.rowCount); /////total number
+                res.render("signers", {
+                    allSigners,
+                });
+            })
+            .catch((err) => {
+                console.log("err:", err);
+            });
+    } else {
+        res.redirect("/welcome");
+    }
+});
 //////// for get req for /signers //////////
-// db.getSigner()
-//     .then((results) => {
-//         console.log("results: ", results);
-//     })
-//     .catch((err) => {
-//         console.log("err:", err);
-//     });
+
 ////////////////
 
 // app.get("/cities", (req, res) => {
@@ -98,17 +123,5 @@ app.post("/welcome", (req, res) => {
 // //             console.log("err in addCity", err);
 // //         });
 // // });
-
-app.get("/thanks", (req, res) => {
-    res.render("thanks", {
-        layout: "main",
-    });
-});
-
-app.get("/signers", (req, res) => {
-    res.render("signers", {
-        layout: "main",
-    });
-});
 
 app.listen(8080, () => console.log("server is running🏃‍♂️..."));

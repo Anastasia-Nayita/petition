@@ -2,17 +2,22 @@
     <h1>Hey this is a partition </h1>
     <h2>PARTition comes from word PARTY🥳 apparently</h2>
     <h3>and for sure not from my misspelling👯‍♀️</h3>
-<form method="POST">
+<form method="POST" style="justify-content: center;display: grid;">
 <div id="inputs">
-    <input type="text" placeholder="First name"name="firstName" minlength="4" maxlength="10" required="required">
-    <label for="firstName">First name</label>
-    <input type="text" placeholder="Last name" name="lastName" minlength="4" required="required"> 
-    <label for="lastName">Last name</label>
+
+<label for="firstName"style="display: none;"></label>
+    <input type='TEXT' placeholder="Ludwig" id="firstName"name="firstName" minlength="4" maxlength="10" required="required">
+  
+     <label for="lastName"style="display: none;"></label>
+    <input type="text" placeholder="Beethoven" id="lastName"name="lastName" minlength="4" required="required"> 
+ 
     {{!-- needs to use {{}} 2 curlies to make handlebars work as sanitizer CHECK --}}
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <input type="hidden" name="signature" id="signature">
+  
+   <label for="canvas" style="display: none;"></label>
     <canvas id="canvas"  width="300" height="100" required="required"></canvas>
- <label for="canvas">Signature</label>
+
 </div>
     <button>SUBMIT</button>
 </div>
