@@ -17,3 +17,4 @@ module.exports.addSigner = (first, last, signature) => {
         [first, last, signature]
     );
 };
+///////////add querys to 'users'

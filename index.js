@@ -5,7 +5,7 @@ const db = require("./db");
 //const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-
+const bc = require("/bc.js");
 /////⬇︎put in secret to protect before push to github
 app.use(
     cookieSession({
