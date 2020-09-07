@@ -4,13 +4,16 @@
 }
 body {
     background-color: #d4e2df;
+    color: #2c3735;
+    font-family: "Rajdhani";
+    font-weight: bolder;
+    font-size: x-large;
 }
 
 #inputs {
     margin: 45% 17%;
-        justify-content: center;
+    justify-content: center;
     display: grid;
-}
 }
 #firstName {
     border-width: 0 0 1px 0;
@@ -19,12 +22,12 @@ body {
     border-width: 0 0 1px 0;
 }
 #canvas {
-    border: dotted black;
+    border: dotted 1px black;
 }
-button{
+button {
     width: 131px;
-height: 45px;
-justify-self: center;
+    height: 45px;
+    justify-self: center;
 }
 footer {
     position: fixed;
