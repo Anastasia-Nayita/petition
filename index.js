@@ -50,27 +50,20 @@ app.get("/register", (req, res) => {
 
 app.post("/register", (req, res) => {
     //console.log("req.body ", req.body);
-    const { first, last, email, password, created_at } = req.body;
+    const { first, last, email, password } = req.body;
     if (first != "" && last != "" && email != "" && password != "") {
         bc.hash(password)
             .then((hashedPassword) => {
                 req.body.password = hashedPassword;
                 const HSpassword = req.body.password;
                 ///  console.log("HSpassword", HSpassword);
-                const { userId } = req.session;
-                db.addUserData(
-                    first,
-                    last,
-                    email,
-                    HSpassword,
-                    created_at,
-                    userId
-                )
+                ///   const { userId } = req.session;
+                ///  console.log("userId: ", userId);
+                db.addUserData(first, last, email, HSpassword)
                     .then((resultUser) => {
                         //console.log("resultUser: ", resultUser);
                         req.session.registered = true;
                         req.session.userId = resultUser.rows[0].id;
-                        ///    console.log("UserId", resultUser.rows[0].id);
                         res.redirect("/profile");
                     })
                     .catch((err) => {
@@ -206,13 +199,12 @@ app.get("/thanks", (req, res) => {
 
 app.get("/signers", (req, res) => {
     if (req.session.signed) {
-        db.getSigner()
+        db.getSignersData()
             .then((results) => {
                 let allSigners = results.rows;
+                console.log("allSigners:  ", allSigners);
                 let totalNumber = results.rowCount;
-                let age;
-                let city;
-                let homepage;
+
                 // console.log("req.body: ", req.body);
                 res.render("signers", {
                     allSigners,
