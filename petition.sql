@@ -1,9 +1,8 @@
-DROP TABLE IF EXISTS petitionList; ---  why shall I do that ????
+DROP TABLE IF EXISTS signatures; 
 
-CREATE TABLE petitionList (
+CREATE TABLE signatures (
      id SERIAL PRIMARY KEY,
-     first VARCHAR NOT NULL CHECK (first != ''),
-     last VARCHAR NOT NULL CHECK (last != ''),
-     signature TEXT NOT NULL CHECK (signature != '')
+     signature TEXT NOT NULL CHECK (signature != ''),
+     userId INT NOT NULL REFERENCES users(id)
 );
 

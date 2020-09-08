@@ -3,10 +3,10 @@
     <form method="POST" style="justify-content: center;display: grid;">
         <div id="inputs">
         <label for="email"></label>
-            <input type='TEXT' placeholder="something@else.com" id="email"name="email" required="required">  
+            <input type='TEXT' placeholder="something@else.com" id="email"name="emailLog" required="required">  
         <label for="password"></label>
-            <input type='TEXT'  id="password"name="password" minlength="6" maxlength="20" required="required">
-            {{!-- needs to use {{}} 2 curlies to make handlebars work as sanitizer CHECK --}}
+           <input type='password' id="password" name="passwordLog" minlength="6" maxlength="20" required="required">
+    {{!-- needs to use {{}} 2 curlies to make handlebars work as sanitizer CHECK --}}
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
         </div>
             <button>LOG IN</button>

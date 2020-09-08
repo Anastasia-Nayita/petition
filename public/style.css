@@ -3,6 +3,8 @@
     box-sizing: border-box;
 }
 body {
+    margin: 10%;
+    align-items: center;
     background-color: #d4e2df;
     color: #2c3735;
     font-family: "Rajdhani";

@@ -4,13 +4,13 @@
     <h3>and for sure not from my misspelling👯‍♀️</h3>
 <form method="POST" style="justify-content: center;display: grid;">
 <div id="inputs">
-
+{{!-- 
 <label for="firstName"style="display: none;"></label>
     <input type='TEXT' placeholder="Ludwig" id="firstName"name="firstName" minlength="4" maxlength="10" required="required">
   
      <label for="lastName"style="display: none;"></label>
     <input type="text" placeholder="Beethoven" id="lastName"name="lastName" minlength="4" required="required"> 
- 
+  --}}
     {{!-- needs to use {{}} 2 curlies to make handlebars work as sanitizer CHECK --}}
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <input type="hidden" name="signature" id="signature">
