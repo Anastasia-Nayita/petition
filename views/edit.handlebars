@@ -1,0 +1,31 @@
+<div id="edit-block">
+
+<div id="inputs">
+    {{#allSigners}}
+     <label for="first">First Name</label>
+            <input type='TEXT' id="first" name="first" value="{{first}}">  
+      
+        <label for="last">Last Name</label>
+            <input type='TEXT' id="last" name="last" value="{{last}}">
+  
+        <label for="email">email</label>
+            <input type='TEXT'  id="email"name="email"value="{{email}}">
+  
+         <label for="password">password</label> 
+             {{!-- add see\dont for password --}}
+            <input type='password' id="password" name="password" minlength="6" maxlength="20" >
+  
+        <label for="age">Age</label>
+            <input type='number' id="age" name="age"value="{{age}}">  
+      
+        <label for="city">City</label>
+            <input type='TEXT' id="city" name="city" value="{{city}}">
+  
+         <label for="homepage">Homepage</label>
+            <input type='TEXT' id="homepage" name="homepage" value="{{homepage}}">  
+    {{/allSigners}}
+         <input type="hidden" name="_csrf" value="{{csrfToken}}"> 
+          {{!-- //////Do we need it? --}}
+           <button>UPDATE</button> 
+    </div>
+</div>

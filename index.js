@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
     // console.log("req.session after: ", req.session);
     res.redirect("/register");
 });
-
+/////////////////////REGISTER BLOCK
 app.get("/register", (req, res) => {
     res.render("register", {
         layout: "main",
@@ -52,6 +52,7 @@ app.post("/register", (req, res) => {
     //console.log("req.body ", req.body);
     const { first, last, email, password } = req.body;
     if (first != "" && last != "" && email != "" && password != "") {
+        /////try to delete
         bc.hash(password)
             .then((hashedPassword) => {
                 req.body.password = hashedPassword;
@@ -80,7 +81,7 @@ app.post("/register", (req, res) => {
     }
     // res.redirect("/profile");
 });
-
+//////////////////////////////////PROFILE BLOCK
 app.get("/profile", (req, res) => {
     res.render("profile", {
         layout: "main",
@@ -103,6 +104,19 @@ app.post("/profile", (req, res) => {
             console.log("err: ", err);
         });
 });
+////////////////////////////////// EDIT BLOCK
+app.get("/edit", (req, res) => {
+    db.getSignersData().then((results) => {
+        let allSigners = results.rows;
+
+        res.render("edit", {
+            layout: "main",
+            allSigners,
+        });
+    });
+});
+
+app.post("/edit", (req, res) => {});
 
 app.get("/login", (req, res) => {
     if (req.session.loggedIn) {
@@ -113,11 +127,12 @@ app.get("/login", (req, res) => {
         res.redirect("/profile");
     }
 });
-
+//////////////////////////////////LOGIN BLOCK
 app.post("/login", (req, res) => {
     const { emailLog, passwordLog } = req.body;
     ///console("req body in login", req.body);
     if (emailLog != "" && passwordLog != "") {
+        /////try to delete
         db.getUserData(emailLog)
             .then((valid) => {
                 if (valid) {
@@ -148,7 +163,7 @@ app.post("/login", (req, res) => {
         });
     }
 });
-
+////////////////////////////////// WELCOME / PETITIN BLOCK
 app.get("/welcome", (req, res) => {
     //  consol(e.log("req.session in welcome: ", req.session);
     res.render("welcome", {
@@ -167,7 +182,7 @@ app.post("/welcome", (req, res) => {
                 // res.cookie("authenticated", true);
                 req.session.signed = true;
                 req.session.signatureId = id.rows[0].id;
-                console.log("id", id.rows[0].id);
+                console.log("id", id.rows[0].id); ////////   id
                 ////////we get the id
                 res.redirect("/thanks");
             })
@@ -176,7 +191,7 @@ app.post("/welcome", (req, res) => {
             });
     }
 });
-
+////////////////////////////////// THANKS BLOCK
 app.get("/thanks", (req, res) => {
     if (req.session.signed) {
         db.getSignature(req.session.signatureId).then((sigResults) => {
@@ -196,13 +211,14 @@ app.get("/thanks", (req, res) => {
         res.redirect("/welcome");
     }
 });
-
+////////////////////////////////// SIGNERS BLOCK
 app.get("/signers", (req, res) => {
     if (req.session.signed) {
         db.getSignersData()
             .then((results) => {
                 let allSigners = results.rows;
-                console.log("allSigners:  ", allSigners);
+                console.log("allSigners.city", allSigners.city); /////////////////continue here
+                //// console.log("allSigners:  ", allSigners);
                 let totalNumber = results.rowCount;
 
                 // console.log("req.body: ", req.body);
@@ -220,6 +236,17 @@ app.get("/signers", (req, res) => {
         res.redirect("/welcome");
     }
 });
+app.get("/signers/:city", (req, res) => {
+    if (req.session.signed) {
+        db.getSignersData().then((results) => {
+            let allSigners = results.rows;
+            // console.log("allSigners.city", allSigners[0].city);
+            // const { city } = req.params;
+            // const selectedCity = allSigners.find(({city}) => )
+        });
+    }
+});
+
 //////// for get req for /signers //////////
 
 ////////////////
@@ -245,4 +272,6 @@ app.get("/signers", (req, res) => {
 // //         });
 // // });
 
-app.listen(8080, () => console.log("server is running🏃‍♂️..."));
+app.listen(process.env.PORT || 8080, () =>
+    console.log("server is running🏃‍♂️...")
+);

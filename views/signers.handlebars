@@ -3,7 +3,12 @@
    <h2> And the total number of signers is  {{totalNumber}} </h2>   
 <ol>
     {{#allSigners}}
-<li>{{first}} {{last}} {{city}}</li>
+    <li>
+    {{first}} {{last}} 
+     {{#if age}} | {{age}} {{/if}}
+    {{#if city}} | <a href=""> {{city}}</a> {{/if}}
+      {{#if homepage}} | <a href="{{homepage}}">{{homepage}}</a>  {{/if}} 
+    </li>
     {{/allSigners}}
 </ol>
 
