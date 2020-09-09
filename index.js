@@ -69,9 +69,7 @@ app.post("/register", (req, res) => {
                     })
                     .catch((err) => {
                         console.log("err in post register: ", err);
-                        res.render("register", {
-                            error: "something went wrong try one more time",
-                        });
+                        res.send("something went wrong, try one more time");
                     });
                 /// console.log("POST REGISTER WORKED");
             })
@@ -106,9 +104,13 @@ app.post("/profile", (req, res) => {
 });
 ////////////////////////////////// EDIT BLOCK
 app.get("/edit", (req, res) => {
-    db.getSignersData().then((results) => {
-        let allSigners = results.rows;
+    /// req.session.userId = userId;
+    const { userId } = req.session;
 
+    db.getSignersData(userId).then((results) => {
+        console.log("req.session", req.session);
+        let allSigners = results.rows;
+        console.log("allSigners", allSigners);
         res.render("edit", {
             layout: "main",
             allSigners,
@@ -217,7 +219,8 @@ app.get("/signers", (req, res) => {
         db.getSignersData()
             .then((results) => {
                 let allSigners = results.rows;
-                console.log("allSigners.city", allSigners.city); /////////////////continue here
+                /// console.log("results.rows[0].id", results.rows[0].id);
+                ////console.log("allSigners[0].city", allSigners[0].city);
                 //// console.log("allSigners:  ", allSigners);
                 let totalNumber = results.rowCount;
 
@@ -236,14 +239,27 @@ app.get("/signers", (req, res) => {
         res.redirect("/welcome");
     }
 });
+
+///////////////////////////  SIGNERS BY CITY
+
 app.get("/signers/:city", (req, res) => {
     if (req.session.signed) {
-        db.getSignersData().then((results) => {
-            let allSigners = results.rows;
-            // console.log("allSigners.city", allSigners[0].city);
-            // const { city } = req.params;
-            // const selectedCity = allSigners.find(({city}) => )
-        });
+        const { city } = req.params;
+        db.getSignersByCity(city)
+            .then((results) => {
+                let allSigners = results.rows;
+                //console.log("allSigners", allSigners);
+                res.render("signerByCity", {
+                    layout: "main",
+                    city,
+                    allSigners,
+                });
+            })
+            .catch((err) => {
+                console.log("err:", err);
+            });
+    } else {
+        //////user didn't sign send ERROR status code permission denied
     }
 });
 

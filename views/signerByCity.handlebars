@@ -1,0 +1,15 @@
+<div id="signersByCityBlock">
+<h1>People from your so called '{{city}}': </h1>
+  
+<ol>
+    {{#allSigners}}
+    <li>
+    {{first}} {{last}} 
+     {{#if age}} | {{age}} {{/if}}
+    {{#if city}} | <a href=""> {{city}}</a> {{/if}}
+      {{#if homepage}} | <a href="{{homepage}}">{{homepage}}</a>  {{/if}} 
+    </li>
+    {{/allSigners}}
+</ol>
+
+</div>

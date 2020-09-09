@@ -57,12 +57,23 @@ module.exports.addUserData = (first, last, email, password) => {
     );
 };
 
-module.exports.getSignersData = () => {
+module.exports.getSignersData = (userId) => {
     return db.query(
-        `SELECT * FROM signatures 
-        LEFT JOIN users
-        ON signatures.userId = users.id
-        LEFT JOIN user_profiles
-        ON signatures.userId = user_profiles.userId`
+        `SELECT * FROM user_profiles  
+        LEFT JOIN users                   
+        ON user_profiles.userId = users.id
+        WHERE userId = ($1)`,
+        [userId]
+    );
+};
+
+module.exports.getSignersByCity = (city) => {
+    return db.query(
+        `SELECT * FROM user_profiles  
+        LEFT JOIN users                   
+        ON user_profiles.userId = users.id                
+        WHERE city = ($1)                      
+        AND LOWER(city) = LOWER($1) `,
+        [city]
     );
 };
