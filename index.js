@@ -51,31 +51,39 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
     //console.log("req.body ", req.body);
     const { first, last, email, password } = req.body;
-    if (first != "" && last != "" && email != "" && password != "") {
-        /////try to delete
-        bc.hash(password)
-            .then((hashedPassword) => {
-                req.body.password = hashedPassword;
-                const HSpassword = req.body.password;
-                ///  console.log("HSpassword", HSpassword);
-                ///   const { userId } = req.session;
-                ///  console.log("userId: ", userId);
-                db.addUserData(first, last, email, HSpassword)
-                    .then((resultUser) => {
-                        //console.log("resultUser: ", resultUser);
-                        req.session.registered = true;
-                        req.session.userId = resultUser.rows[0].id;
-                        res.redirect("/profile");
-                    })
-                    .catch((err) => {
-                        console.log("err in post register: ", err);
-                        res.send("something went wrong, try one more time");
-                    });
-                /// console.log("POST REGISTER WORKED");
-            })
-            .catch((err) => {
-                console.log("err : ", err);
-            });
+    const regExpression = /^[a-zA-Z\s]*$/;
+    const inputAllowed = regExpression.test(first, last, email, password);
+
+    if (!inputAllowed) {
+        res.render("register", {
+            error: "invalid input", ////  🧐 Can not see error
+        });
+    } else {
+        if (first != "" && last != "" && email != "" && password != "") {
+            /////try to delete
+            bc.hash(password)
+                .then((hashedPassword) => {
+                    req.body.password = hashedPassword;
+                    // console.log("req.body.password", req.body.password);
+                    ///   const { userId } = req.session;
+                    ///  console.log("userId: ", userId);
+                    db.addUserData(first, last, email, hashedPassword)
+                        .then((resultUser) => {
+                            //console.log("resultUser: ", resultUser);
+                            req.session.registered = true;
+                            req.session.userId = resultUser.rows[0].id;
+                            res.redirect("/profile");
+                        })
+                        .catch((err) => {
+                            console.log("err in post register: ", err);
+                            res.send("something went wrong, try one more time");
+                        });
+                    /// console.log("POST REGISTER WORKED");
+                })
+                .catch((err) => {
+                    console.log("err : ", err);
+                });
+        }
     }
     // res.redirect("/profile");
 });
@@ -107,24 +115,71 @@ app.post("/profile", (req, res) => {
 app.get("/edit", (req, res) => {
     /// req.session.userId = userId;
     const { userId } = req.session;
-
-    db.getSignerData(userId).then((results) => {
-        console.log("req.session", req.session);
-        let allSigners = results.rows;
-        console.log("allSigners", allSigners);
-        res.render("edit", {
-            layout: "main",
-            allSigners,
+    db.getSignerData(userId)
+        .then((results) => {
+            //  console.log("req.session", req.session);
+            let allSigners = results.rows;
+            // console.log("allSigners", allSigners);
+            res.render("edit", {
+                layout: "main",
+                allSigners,
+            });
+        })
+        .catch((err) => {
+            console.log("err in getSigner", err);
         });
-    });
 });
 
 app.post("/edit", (req, res) => {
     const { userId } = req.session;
-    if (!userId) {
-        console.log("There is no profile data yet!");
+    console.log("userId before IF", userId);
+    const { first, last, email, password, age, city, homepage } = req.body;
+    if (!password) {
+        console.log("in the if !pass");
+        db.updateUsers(first, last, email, userId)
+            .then(() => {
+                // res.redirect("/welcome");
+                // console.log("userId", userId);
+                db.updateProfile(age, city, homepage, userId)
+                    .then(() => {
+                        res.redirect("/welcome");
+                    })
+                    .catch((err) => {
+                        console.log("err: ", err);
+                    });
+            })
+            .catch((err) => {
+                console.log("err upUs: ", err);
+            });
+    } else {
+        console.log("in the else");
+        bc.hash(password)
+            .then((hashedPassword) => {
+                req.body.password = hashedPassword;
+                db.updateUsersChangePSW(
+                    first,
+                    last,
+                    email,
+                    hashedPassword,
+                    userId
+                )
+                    .then(() => {
+                        db.updateProfile(age, city, homepage, userId) ////  🧐 UPDATE IS NOT HAPPENNING
+                            .then(() => {
+                                res.redirect("/welcome");
+                            })
+                            .catch((err) => {
+                                console.log("err: ", err);
+                            });
+                    })
+                    .catch((err) => {
+                        console.log("err in updWpsw", err);
+                    });
+            })
+            .catch((err) => {
+                console.log("err: ", err);
+            });
     }
-    //     db.updateProfile().then
 });
 
 app.get("/login", (req, res) => {
@@ -193,7 +248,7 @@ app.post("/welcome", (req, res) => {
                 // res.cookie("authenticated", true);
                 req.session.signed = true;
                 req.session.signatureId = id.rows[0].id;
-                console.log("id", id.rows[0].id); ////////   id
+                //console.log("id", id.rows[0].id); ////////   id
                 ////////we get the id
                 res.redirect("/thanks");
             })
@@ -225,6 +280,21 @@ app.get("/thanks", (req, res) => {
     }
 });
 
+app.post("/thanks", (req, res) => {
+    const { userId } = req.session;
+    console.log("req.session.signatureId BEFORE : ", req.session.signatureId);
+    db.deleteSig(userId)
+        .then(() => {
+            req.session.signatureId = null;
+            console.log(
+                "req.session.signatureId AFTER: ",
+                req.session.signatureId
+            );
+        })
+        .catch((err) => {
+            console.log("err:", err);
+        });
+});
 ////////////////////////////////// SIGNERS BLOCK
 
 app.get("/signers", (req, res) => {
@@ -234,7 +304,7 @@ app.get("/signers", (req, res) => {
                 let allSigners = results.rows;
                 //// console.log("results.rows[0].id", results.rows[0].id);
                 ////console.log("allSigners[0].city", allSigners[0].city);
-                console.log("results:  ", results);
+                //   console.log("results:  ", results);
                 // console.log("allSigners.first:  ", allSigners.first);
                 let totalNumber = results.rowCount;
                 /////COME BACK HERE - FOR SOME REASON IT"S NOT RENDERING LIST OF USERS - DB-QUERY CHECKED
@@ -301,6 +371,4 @@ app.get("/signers/:city", (req, res) => {
 // //         });
 // // });
 
-app.listen(process.env.PORT || 8080, () =>
-    console.log("server is running🏃‍♂️...")
-);
+app.listen(process.env.PORT || 8080, () => console.log("server is running..."));

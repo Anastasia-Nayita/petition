@@ -1,5 +1,5 @@
 <div id="edit-block">
-
+<h2>Maybe you want to change something?</h2>
 <div id="inputs">
     {{#allSigners}}
      <label for="first">First Name</label>
@@ -23,9 +23,11 @@
   
          <label for="homepage">Homepage</label>
             <input type='TEXT' id="homepage" name="homepage" value="{{homepage}}">  
-    {{/allSigners}}
+    
          <input type="hidden" name="_csrf" value="{{csrfToken}}"> 
-          {{!-- //////Do we need it? --}}
-           <button> <a href="welcome"></a> UPDATE</button> 
+    {{/allSigners}}      
+      {{!-- //////Do we need it? --}}
+          <button type="submit">UPDATE</button>
+         
     </div>
 </div>
