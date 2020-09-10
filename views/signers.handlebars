@@ -1,12 +1,13 @@
 <div id="signersBlock">
 <h1>Look at all people who think the same way and signed this partition</h1>
    <h2> And the total number of signers is  {{totalNumber}} </h2>   
+   {{!-- <h1> I am <span id="changingWord"></span></h1> --}}
 <ol>
     {{#allSigners}}
     <li>
     {{first}} {{last}} 
      {{#if age}} | {{age}} {{/if}}
-    {{#if city}} | <a href="/signers/{{city}}""> {{city}}</a> {{/if}}
+    {{#if city}} | <a href="/signers/{{city}}"> {{city}}</a> {{/if}}
       {{#if homepage}} | <a href="{{homepage}}">{{homepage}}</a>  {{/if}} 
     </li>
     {{/allSigners}}

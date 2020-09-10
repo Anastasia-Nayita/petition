@@ -88,8 +88,6 @@ app.get("/profile", (req, res) => {
 
 app.post("/profile", (req, res) => {
     const { age, city, homepage } = req.body;
-    //console.log("req.body", req.body);
-    // console.log("req.session", req.session);
     const { userId } = req.session;
     // console.log("req.body", req.body);
     // console.log("req.session.loggedIn", req.session.loggedIn);
@@ -101,13 +99,16 @@ app.post("/profile", (req, res) => {
         .catch((err) => {
             console.log("err: ", err);
         });
+    // } else {
+    //     res.redirect("/welcome");
+    // }
 });
 ////////////////////////////////// EDIT BLOCK
 app.get("/edit", (req, res) => {
     /// req.session.userId = userId;
     const { userId } = req.session;
 
-    db.getSignersData(userId).then((results) => {
+    db.getSignerData(userId).then((results) => {
         console.log("req.session", req.session);
         let allSigners = results.rows;
         console.log("allSigners", allSigners);
@@ -118,7 +119,13 @@ app.get("/edit", (req, res) => {
     });
 });
 
-app.post("/edit", (req, res) => {});
+app.post("/edit", (req, res) => {
+    const { userId } = req.session;
+    if (!userId) {
+        console.log("There is no profile data yet!");
+    }
+    //     db.updateProfile().then
+});
 
 app.get("/login", (req, res) => {
     if (req.session.loggedIn) {
@@ -165,7 +172,9 @@ app.post("/login", (req, res) => {
         });
     }
 });
-////////////////////////////////// WELCOME / PETITIN BLOCK
+
+////////////////////////////////////////// WELCOME / PETITION BLOCK
+
 app.get("/welcome", (req, res) => {
     //  consol(e.log("req.session in welcome: ", req.session);
     res.render("welcome", {
@@ -193,7 +202,9 @@ app.post("/welcome", (req, res) => {
             });
     }
 });
+
 ////////////////////////////////// THANKS BLOCK
+
 app.get("/thanks", (req, res) => {
     if (req.session.signed) {
         db.getSignature(req.session.signatureId).then((sigResults) => {
@@ -213,22 +224,24 @@ app.get("/thanks", (req, res) => {
         res.redirect("/welcome");
     }
 });
+
 ////////////////////////////////// SIGNERS BLOCK
+
 app.get("/signers", (req, res) => {
     if (req.session.signed) {
-        db.getSignersData()
+        db.getSignersList()
             .then((results) => {
                 let allSigners = results.rows;
-                /// console.log("results.rows[0].id", results.rows[0].id);
+                //// console.log("results.rows[0].id", results.rows[0].id);
                 ////console.log("allSigners[0].city", allSigners[0].city);
-                //// console.log("allSigners:  ", allSigners);
+                console.log("results:  ", results);
+                // console.log("allSigners.first:  ", allSigners.first);
                 let totalNumber = results.rowCount;
-
+                /////COME BACK HERE - FOR SOME REASON IT"S NOT RENDERING LIST OF USERS - DB-QUERY CHECKED
                 // console.log("req.body: ", req.body);
                 res.render("signers", {
                     allSigners,
                     totalNumber,
-
                     //res.send(` <h2> And the total number of signers is <script src="index.js">results.rowCount</script></h2>`)
                 });
             })

@@ -32,13 +32,14 @@ module.exports.addSigner = (signature, userId) => {
 module.exports.addProfile = (age, city, homepage, userId) => {
     return db.query(
         `INSERT INTO user_profiles (age, city, homepage, userId)
-    VALUES($1, $2, $3, $4)  
-    RETURNING id
+        VALUES 
+        ($1, $2, $3, $4) 
+        RETURNING id
         `,
-        [age, city, homepage, userId]
+        [age || null, city, homepage, userId]
     );
 };
-///////checks psw
+
 module.exports.getUserData = (email) => {
     return db.query(
         `SELECT * FROM users 
@@ -57,7 +58,7 @@ module.exports.addUserData = (first, last, email, password) => {
     );
 };
 
-module.exports.getSignersData = (userId) => {
+module.exports.getSignerData = (userId) => {
     return db.query(
         `SELECT * FROM user_profiles  
         LEFT JOIN users                   
@@ -67,6 +68,20 @@ module.exports.getSignersData = (userId) => {
     );
 };
 
+module.exports.updateProfile = () => {
+    return db.query(
+        `
+        `
+    );
+};
+
+module.exports.getSignersList = () => {
+    return db.query(
+        `SELECT * FROM user_profiles  
+        LEFT JOIN users                   
+        ON user_profiles.userId = users.id`
+    );
+};
 module.exports.getSignersByCity = (city) => {
     return db.query(
         `SELECT * FROM user_profiles  
