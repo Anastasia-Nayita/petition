@@ -5,14 +5,39 @@ const db = require("./db");
 //const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
+const redis = require("./redis");
 const bc = require("./bc.js");
 /////⬇︎put in secret to protect before push to github
+
 app.use(
     cookieSession({
         secret: `I'm always angry.`,
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+
+app.get("/redis-fun", (req, res) => {
+    redis
+        .setex(
+            "hero",
+            30,
+            JSON.stringify({
+                super_hero: "storm",
+                super_power: "weather",
+            })
+        )
+        .then(() => {
+            res.redirect("/get-from-redis");
+        })
+        .catch((err) => console.log("err:", err));
+});
+
+app.get("/get-from-redis", (req, res) => {
+    redis.get("hero").then((data) => {
+        console.log("data from redis: ", JSON.parse(data));
+        res.sendStatus(200);
+    });
+});
 //app.use(cookieParser());
 app.use(
     express.urlencoded({
@@ -51,39 +76,38 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
     //console.log("req.body ", req.body);
     const { first, last, email, password } = req.body;
-    const regExpression = /^[a-zA-Z\s]*$/;
-    const inputAllowed = regExpression.test(first, last, email, password);
-
-    if (!inputAllowed) {
-        res.render("register", {
-            error: "invalid input", ////  🧐 Can not see error
-        });
-    } else {
-        if (first != "" && last != "" && email != "" && password != "") {
-            /////try to delete
-            bc.hash(password)
-                .then((hashedPassword) => {
-                    req.body.password = hashedPassword;
-                    // console.log("req.body.password", req.body.password);
-                    ///   const { userId } = req.session;
-                    ///  console.log("userId: ", userId);
-                    db.addUserData(first, last, email, hashedPassword)
-                        .then((resultUser) => {
-                            //console.log("resultUser: ", resultUser);
-                            req.session.registered = true;
-                            req.session.userId = resultUser.rows[0].id;
-                            res.redirect("/profile");
-                        })
-                        .catch((err) => {
-                            console.log("err in post register: ", err);
-                            res.send("something went wrong, try one more time");
-                        });
-                    /// console.log("POST REGISTER WORKED");
-                })
-                .catch((err) => {
-                    console.log("err : ", err);
-                });
-        }
+    // const regExpression = /^[a-zA-Z\s]*$/;
+    // const inputAllowed = regExpression.test(first, last, email, password);
+    console.log(req.body);
+    // if (!inputAllowed) {
+    //     res.render("register", {
+    //         error: "invalid input", ////  🧐 Can not see error 🧨🧨🧨
+    //     });
+    // } else {
+    if (first != "" && last != "" && email != "" && password != "") {
+        /////try to delete
+        bc.hash(password)
+            .then((hashedPassword) => {
+                req.body.password = hashedPassword;
+                // console.log("req.body.password", req.body.password);
+                ///   const { userId } = req.session;
+                ///  console.log("userId: ", userId);
+                db.addUserData(first, last, email, hashedPassword)
+                    .then((resultUser) => {
+                        //console.log("resultUser: ", resultUser);
+                        req.session.registered = true;
+                        req.session.userId = resultUser.rows[0].id;
+                        res.redirect("/profile");
+                    })
+                    .catch((err) => {
+                        console.log("err in post register: ", err);
+                        res.send("something went wrong, try one more time");
+                    });
+                /// console.log("POST REGISTER WORKED");
+            })
+            .catch((err) => {
+                console.log("err : ", err);
+            });
     }
     // res.redirect("/profile");
 });
@@ -117,9 +141,9 @@ app.get("/edit", (req, res) => {
     const { userId } = req.session;
     db.getSignerData(userId)
         .then((results) => {
-            //  console.log("req.session", req.session);
+            console.log("req.session", req.session);
             let allSigners = results.rows;
-            // console.log("allSigners", allSigners);
+            console.log("allSigners", allSigners);
             res.render("edit", {
                 layout: "main",
                 allSigners,
@@ -164,7 +188,7 @@ app.post("/edit", (req, res) => {
                     userId
                 )
                     .then(() => {
-                        db.updateProfile(age, city, homepage, userId) ////  🧐 UPDATE IS NOT HAPPENNING
+                        db.updateProfile(age, city, homepage, userId) ////  🧐 UPDATE IS NOT HAPPENNING 🧨🧨🧨
                             .then(() => {
                                 res.redirect("/welcome");
                             })
@@ -228,6 +252,18 @@ app.post("/login", (req, res) => {
     }
 });
 
+app.get("/logout", (req, res) => {
+    res.render("logout", {
+        layout: "main",
+    });
+});
+
+app.post("/logout", (req, res) => {
+    req.session = null;
+    console.log("req.body: ", req.body);
+    res.redirect("register");
+});
+
 ////////////////////////////////////////// WELCOME / PETITION BLOCK
 
 app.get("/welcome", (req, res) => {
@@ -282,13 +318,20 @@ app.get("/thanks", (req, res) => {
 
 app.post("/thanks", (req, res) => {
     const { userId } = req.session;
-    console.log("req.session.signatureId BEFORE : ", req.session.signatureId);
+    //  console.log("user id", req.session.userId);
+    // console.log("req.body.signature BEFORE: ", req.body.signature);
+    //console.log("req.session.signature Id BEFORE : ", req.session.signatureId);
     db.deleteSig(userId)
         .then(() => {
             req.session.signatureId = null;
+            res.redirect("/welcome");
             console.log(
                 "req.session.signatureId AFTER: ",
                 req.session.signatureId
+            );
+            console.log(
+                "req.body.signature AFTER DELETE: ",
+                req.body.signature
             );
         })
         .catch((err) => {

@@ -1,6 +1,7 @@
 <div id="edit-block">
 <h2>Maybe you want to change something?</h2>
 <div id="inputs">
+    <form method="POST" style="justify-content: center;display: grid;">
     {{#allSigners}}
      <label for="first">First Name</label>
             <input type='TEXT' id="first" name="first" value="{{first}}">  
@@ -24,10 +25,13 @@
          <label for="homepage">Homepage</label>
             <input type='TEXT' id="homepage" name="homepage" value="{{homepage}}">  
     
-         <input type="hidden" name="_csrf" value="{{csrfToken}}"> 
+        
     {{/allSigners}}      
       {{!-- //////Do we need it? --}}
+      
+     <input type="hidden" name="_csrf" value="{{csrfToken}}">
           <button type="submit">UPDATE</button>
+        </form>
          
     </div>
 </div>

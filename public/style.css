@@ -11,6 +11,13 @@ body {
     font-weight: bolder;
     font-size: x-large;
 }
+#nav {
+    position: fixed;
+    display: grid;
+    right: 3%;
+    top: 5%;
+    border: rgb(41, 40, 40) 3px solid;
+}
 
 #inputs {
     margin: 45% 17%;
