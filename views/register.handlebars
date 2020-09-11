@@ -1,29 +1,21 @@
-<div id="registerBlock">
-
-<form method="POST" style="justify-content: center;display: grid;">
-<div id="inputs">
-<label for="firstName"></label>
-    <input type='TEXT' placeholder="Ludwig" id="firstName"name="first" minlength="4" maxlength="10" required="required">
-  
-     <label for="lastName"></label>
-    <input type="text" placeholder="Beethoven" id="lastName"name="last" minlength="4" required="required"> 
- 
- <label for="email"></label>
-    <input type='TEXT' placeholder="something@else.com" id="email"name="email" required="required">
-  
-  <label for="password"></label> 
+<div class="gallery">
+            <img class="gallery-img" src="/snow2.jpg" alt="img">     
+  </div>
+<div id="info-block">
+    <form method="POST" style="justify-content: center;display: grid;">
+        <div id="inputs">
+          <label for="firstName"></label>
+           <input type='TEXT' placeholder="Ludwig" id="firstName"name="first" minlength="4" maxlength="10" required="required">
+           <label for="lastName"></label>
+           <input type="text" placeholder="Beethoven" id="lastName"name="last" minlength="4" required="required"> 
+          <label for="email"></label>
+          <input type='TEXT' placeholder="something@else.com" id="email"name="email" required="required">
+          <label for="password"></label> 
   {{!-- add see\dont for password --}}
-    <input type='password' id="password" name="password" minlength="6" maxlength="20" required="required">
-  
-    {{!-- needs to use {{}} 2 curlies to make handlebars work as sanitizer CHECK --}}
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-</div>
-    <button>SIGN UP</button>
-</div>
-<h3>If you are already a member, please <a href="/login">log in</a>
-
-</h3>
-</form>
-
-
+           <input type='password' id="password" name="password" minlength="6" maxlength="20" required="required">
+           <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        </div>
+      <button>SIGN UP</button>
+    <h3>If you are already a member, please <a href="/login">log in</a></h3>
+  </form>
 </div>
