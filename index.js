@@ -302,12 +302,10 @@ app.get("/signers", (req, res) => {
         db.getSignersList()
             .then((results) => {
                 let allSigners = results.rows;
-                //// console.log("results.rows[0].id", results.rows[0].id);
                 ////console.log("allSigners[0].city", allSigners[0].city);
-                //   console.log("results:  ", results);
-                // console.log("allSigners.first:  ", allSigners.first);
+                ////   console.log("results:  ", results);
                 let totalNumber = results.rowCount;
-                /////COME BACK HERE - FOR SOME REASON IT"S NOT RENDERING LIST OF USERS - DB-QUERY CHECKED
+                ///// 🧨🧨🧨 COME BACK HERE - FOR SOME REASON IT"S NOT RENDERING LIST OF USERS - DB-QUERY CHECKED
                 // console.log("req.body: ", req.body);
                 res.render("signers", {
                     allSigners,
