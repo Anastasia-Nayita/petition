@@ -1,21 +1,23 @@
-<div class="gallery">
-            <img class="gallery-img" src="/snow2.jpg" alt="img">     
-  </div>
+<div id="page-name">
+ <h1>REGISTER 
+    <br>
+    PROFILE</h1>
+</div> 
 <div id="info-block">
     <form method="POST" style="justify-content: center;display: grid;">
         <div id="inputs">
-          <label for="firstName"></label>
-           <input type='TEXT' placeholder="Ludwig" id="firstName"name="first" minlength="4" maxlength="10" required="required">
-           <label for="lastName"></label>
-           <input type="text" placeholder="Beethoven" id="lastName"name="last" minlength="4" required="required"> 
-          <label for="email"></label>
-          <input type='TEXT' placeholder="something@else.com" id="email"name="email" required="required">
-          <label for="password"></label> 
+          <label for="firstName">First Name</label>
+           <input type='TEXT' placeholder="Ludwig" id="first"name="first" minlength="4" maxlength="10" required="required">
+           <label for="lastName">Last Name</label>
+           <input type="text" placeholder="Beethoven" id="last"name="last" minlength="4" required="required"> 
+          <label for="email">Email</label>
+          <input type='TEXT' placeholder="something@else.com" id="email" name="email" required="required">
+          <label for="password">Password</label> 
   {{!-- add see\dont for password --}}
            <input type='password' id="password" name="password" minlength="6" maxlength="20" required="required">
            <input type="hidden" name="_csrf" value="{{csrfToken}}">
         </div>
       <button>SIGN UP</button>
-    <h3>If you are already a member, please <a href="/login">log in</a></h3>
-  </form>
+   </form> 
 </div>
+<h3 id="ifBlock">If you are already a member, please <a href="/login">log in</a></h3>

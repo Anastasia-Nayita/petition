@@ -1,19 +1,19 @@
-<img class="gallery-img" src="/snow1.jpg" alt="img">  
+ <div id="page-name">
+     <h1>LOG 
+    <br>
+    IN</h1>
+</div> 
 <div id="info-block">
     <form method="POST" style="justify-content: center;display: grid;">
         <div id="inputs">
-        <label for="email"></label>
+            <label for="email">Email</label>
             <input type='TEXT' placeholder="something@else.com" id="email"name="emailLog" required="required">  
-        <label for="password"></label>
-           <input type='password' id="password" name="passwordLog" minlength="6" maxlength="20" required="required">
+            <label for="password">Password</label>
+            <input type='password' id="password" name="passwordLog" minlength="6" maxlength="20" required="required">
     {{!-- needs to use {{}} 2 curlies to make handlebars work as sanitizer CHECK --}}
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
         </div>
             <button>LOG IN</button>
-        </div>
-        <h3>If you are not a member yet, please <a href="/register">register</a>
-
-</h3>
     </form>
-    
-</div>
+ </div>   
+ <h3 id="ifBlock">If you are not a member yet, please <a href="/register">register</a></h3>

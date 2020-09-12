@@ -1,25 +1,33 @@
-<img class="gallery-img" src="/snow4.jpg" alt="img">  
-<div id="info-block">
-    <h1>Hey this is a partition </h1>
-    <h2>PARTition comes from word PARTY🥳 apparently</h2>
-    <h3>and for sure not from my misspelling👯‍♀️</h3>
-<form method="POST" style="justify-content: center;display: grid;">
-<div id="inputs">
-{{!-- 
-<label for="firstName"style="display: none;"></label>
-    <input type='TEXT' placeholder="Ludwig" id="firstName"name="firstName" minlength="4" maxlength="10" required="required">
-  
-     <label for="lastName"style="display: none;"></label>
-    <input type="text" placeholder="Beethoven" id="lastName"name="lastName" minlength="4" required="required"> 
-  --}}
-    {{!-- needs to use {{}} 2 curlies to make handlebars work as sanitizer CHECK --}}
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="signature" id="signature">
-  
-   <label for="canvas" style="display: none;"></label>
-    <canvas id="canvas"  width="300" height="100" required="required"></canvas>
-
-</div>
+<div id="page-name">
+ <h1>WHAT'S 
+    <br>
+    ALL
+    <br>
+    ABOUT</h1>
+</div> 
+<div id="petBlock">
+    <h2 class="line-block1">Sign this petition to ban the term “snowflake generation”</h2>
+    <h3 class="line-block2">The name comes from the phrase “special snowflake”, 
+        meaning someone who is self-absorbed and fragile, easily offended, or unable to cope with opposing opinions.</h3>
+    <section class="left-block">
+        "Snowflake" is a term applied to a person whose feelings or emotions are not convenient for the interlocutor, 
+        therefore it is easier to devalue them than to take into account. “Even saying nothing can’t be offended right away” 
+        - this is how we justify our actions and belittle the feelings of others, ridiculing and labelling “you are wrong, you overreact”.
+    </section>
+    <section class="right-block">
+        People have not become more sensitive or more fragile - they are just better informed and more aware. 
+        And this, in the first place, explains the fact that today they pay attention to what was previously 
+        customary to keep in themselves, saying that "it's hard for everyone."
+    </section>
+    <div class="sig-block">
+        <form method="POST" style="justify-content: center;display: grid;">
+            <div id="inputs">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <input type="hidden" name="signature" id="signature">
+             <label for="canvas" style="display: none;"></label>
+            <canvas id="canvas"  width="300" height="100" required="required"></canvas>
+    </div>
     <button>SUBMIT</button>
 </div>
 </form>
+</div>

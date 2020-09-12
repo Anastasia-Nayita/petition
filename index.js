@@ -81,7 +81,7 @@ app.post("/register", (req, res) => {
     console.log(req.body);
     // if (!inputAllowed) {
     //     res.render("register", {
-    //         error: "invalid input", ////  🧐 Can not see error 🧨🧨🧨
+    //         error: "invalid input",
     //     });
     // } else {
     if (first != "" && last != "" && email != "" && password != "") {
@@ -137,21 +137,25 @@ app.post("/profile", (req, res) => {
 });
 ////////////////////////////////// EDIT BLOCK
 app.get("/edit", (req, res) => {
-    /// req.session.userId = userId;
-    const { userId } = req.session;
-    db.getSignerData(userId)
-        .then((results) => {
-            console.log("req.session", req.session);
-            let allSigners = results.rows;
-            console.log("allSigners", allSigners);
-            res.render("edit", {
-                layout: "main",
-                allSigners,
+    if (req.session.loggedIn || req.session.registered) {
+        /// req.session.userId = userId;
+        const { userId } = req.session;
+        db.getSignerData(userId)
+            .then((results) => {
+                console.log("req.session", req.session);
+                let allSigners = results.rows;
+                console.log("allSigners", allSigners);
+                res.render("edit", {
+                    layout: "main",
+                    allSigners,
+                });
+            })
+            .catch((err) => {
+                console.log("err in getSigner", err);
             });
-        })
-        .catch((err) => {
-            console.log("err in getSigner", err);
-        });
+    } else {
+        res.redirect("/register");
+    }
 });
 
 app.post("/edit", (req, res) => {
@@ -188,7 +192,7 @@ app.post("/edit", (req, res) => {
                     userId
                 )
                     .then(() => {
-                        db.updateProfile(age, city, homepage, userId) ////  🧐 UPDATE IS NOT HAPPENNING 🧨🧨🧨
+                        db.updateProfile(age, city, homepage, userId)
                             .then(() => {
                                 res.redirect("/welcome");
                             })
@@ -267,10 +271,13 @@ app.post("/logout", (req, res) => {
 ////////////////////////////////////////// WELCOME / PETITION BLOCK
 
 app.get("/welcome", (req, res) => {
-    //  consol(e.log("req.session in welcome: ", req.session);
-    res.render("welcome", {
-        layout: "main",
-    });
+    if (req.session.loggedIn || req.session.registered) {
+        res.render("welcome", {
+            layout: "main",
+        });
+    } else {
+        res.redirect("/register");
+    }
 });
 // use Middleware from EXPRESS, console.log(req.body) use post req//
 app.post("/welcome", (req, res) => {

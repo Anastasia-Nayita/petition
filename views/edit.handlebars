@@ -1,10 +1,16 @@
-<img class="gallery-img" src="/snow11.jpg" alt="img">  
-<div id="edit-block">
-<h2>Maybe you want to change something?</h2>
+{{!-- <img class="gallery-img" src="/snow11.jpg" alt="img">   --}}
+ <div id="page-name">
+ <h1>EDIT 
+    <br>
+    PROFILE</h1>
+</div> 
+
+<div id="info-block">
 <div id="inputs">
-    <form method="POST" style="justify-content: center;display: grid;">
+    <form method="POST" id="form">
     {{#allSigners}}
-     <label for="first">First Name</label>
+  
+        <label for="first">First Name</label>
             <input type='TEXT' id="first" name="first" value="{{first}}">  
       
         <label for="last">Last Name</label>
@@ -12,7 +18,7 @@
   
         <label for="email">email</label>
             <input type='TEXT'  id="email"name="email"value="{{email}}">
-  
+    
          <label for="password">password</label> 
              {{!-- add see\dont for password --}}
             <input type='password' id="password" name="password" minlength="6" maxlength="20" >
@@ -25,7 +31,7 @@
   
          <label for="homepage">Homepage</label>
             <input type='TEXT' id="homepage" name="homepage" value="{{homepage}}">  
-    
+   
         
     {{/allSigners}}      
       {{!-- //////Do we need it? --}}

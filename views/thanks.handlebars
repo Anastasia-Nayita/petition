@@ -1,15 +1,22 @@
-<img class="gallery-img" src="/snow3.jpg" alt="img">  
+ <div id="page-name">
+ <h1>THANK 
+    <br>
+    YOU</h1>
+</div> 
 <div id="info-block">
-<h1> Thanks man</h1>
-<h2>I hope you are proud of that </h2>
+<h2> Thanks man</h2>
+<br>
+<h3>I hope you are proud of that </h3>
+<br>
     <img src="{{sigUrl}}" alt="sig" style="border: 1px solid grey;"> 
- <h1>And total number of signers is {{totalNumber}}</h1> {{!--  MUST BE A LINK ??  --}}
+ <h3>And total number of signers is {{totalNumber}}</h3> {{!--  MUST BE A LINK ??  --}}
  
  <form method="POST" style="justify-content: center;display: grid;">
      <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <button>Delete your sinature</button>
- </form>
-<button>
+    <button>
     <a href="/signers">Click to see all signers</a>
 </button>
+ </form>
+
 </div>
