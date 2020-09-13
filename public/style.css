@@ -21,11 +21,23 @@
 
 body {
     align-items: center;
+    height: 100vh;
+    background: -moz-radial-gradient(
+        circle,
+        rgba(255, 255, 255, 1) 37%,
+        rgba(172, 167, 203, 1) 123%
+    );
+    background: -webkit-radial-gradient(
+        circle,
+        rgba(255, 255, 255, 1) 37%,
+        rgba(172, 167, 203, 1) 123%
+    );
     background: radial-gradient(
         circle,
-        rgba(255, 255, 255, 1) 26%,
-        rgba(172, 167, 203, 1) 165%
+        rgba(255, 255, 255, 1) 37%,
+        rgba(172, 167, 203, 1) 123%
     );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#aca7cb",GradientType=1);
     color: #2c3735;
     font-family: "montserrat";
     font-size: 1.2rem;
@@ -74,6 +86,7 @@ h1 {
         "sig-block sig-block";
 }
 .line-block1 {
+    font-weight: 2.2rem;
     grid-area: line-block1;
 }
 .line-block2 {
@@ -148,6 +161,7 @@ button {
 }
 button:hover {
     background-color: #b74ab9;
+    color: whitesmoke;
 }
 
 footer {
