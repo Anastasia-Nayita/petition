@@ -5,16 +5,18 @@
 
 @font-face {
     font-family: "orbitron";
-    src: url("orbitron-variablefont_wght-webfont.woff2") format("woff2"),
-        url("orbitron-variablefont_wght-webfont.woff") format("woff");
+    src: url("/public/fonts/Orbitron-VariableFont_wght.ttf") format("truetype"),
+        url("/public/fonts/orbitron-variablefont_wght-webfont.woff")
+            format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "montserrat";
-    src: url("montserrat-regular-webfont.woff2") format("woff2"),
-        url("montserrat-regular-webfont.woff") format("woff");
+    src: url("/public/fonts/Montserrat-Regular.ttf") format("truetype"),
+        url("/public/fonts/orbitron-variablefont_wght-webfont.woff")
+            format("woff");
     font-weight: normal;
     font-style: normal;
 }

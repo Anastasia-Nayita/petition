@@ -5,10 +5,12 @@ const db = require("./db");
 //const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
+const helmet = require("helmet");
+
 const redis = require("./redis");
 const bc = require("./bc.js");
 /////⬇︎put in secret to protect before push to github
-
+app.use(helmet());
 app.use(
     cookieSession({
         secret: `I'm always angry.`,
