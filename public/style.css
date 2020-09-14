@@ -4,19 +4,19 @@
 }
 
 @font-face {
-    font-family: "orbitron";
-    src: url("/public/fonts/Orbitron-VariableFont_wght.ttf") format("truetype"),
-        url("/public/fonts/orbitron-variablefont_wght-webfont.woff")
-            format("woff");
+    font-family: "Orbitron";
+    src: url("/public/fonts/Orbitron-VariableFont_wght.ttf") format("truetype");
+    /* url("/public/fonts/orbitron-variablefont_wght-webfont.woff") */
+    /* format("woff"); */
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: "montserrat";
-    src: url("/public/fonts/Montserrat-Regular.ttf") format("truetype"),
-        url("/public/fonts/orbitron-variablefont_wght-webfont.woff")
-            format("woff");
+    font-family: "Montserrat";
+    src: url("/public/fonts/Montserrat-Regular.ttf") format("truetype");
+    /* url("/public/fonts/orbitron-variablefont_wght-webfont.woff") */
+    /* format("woff"); */
     font-weight: normal;
     font-style: normal;
 }
